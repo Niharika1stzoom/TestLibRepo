@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/drawable-anydpi/ic_action_acamera_dark.xml" value="0.1" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/drawable-anydpi/ic_action_arrow.xml" value="0.1" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/drawable-anydpi/ic_action_full_screen.xml" value="0.115" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/drawable-anydpi/ic_action_play.xml" value="0.1" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/drawable-anydpi/ic_action_playback.xml" value="0.115" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/drawable-anydpi/ic_action_share.xml" value="0.1" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/drawable-anydpi/ic_action_videos.xml" value="0.1" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/activity_exo_player.xml" value="0.1" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/activity_fullscreen.xml" value="0.1" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/fragment_group_detail.xml" value="0.3333333333333333" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/fragment_groups.xml" value="0.1" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/fragment_login.xml" value="0.14666666666666667" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/fragment_monitors.xml" value="0.3333333333333333" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/fragment_recordings.xml" value="0.1" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/fragment_settings.xml" value="0.1" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/list_item_camera_info.xml" value="0.17552083333333332" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/list_item_group.xml" value="0.14666666666666667" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/list_item_group_detail.xml" value="0.1" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/list_item_recording.xml" value="0.1" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/view_empty.xml" value="0.1" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/menu/bottom_nav_menu.xml" value="0.17447916666666666" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/menu/camera_menu.xml" value="0.17447916666666666" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/menu/search_menu.xml" value="0.17552083333333332" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/menu/span_menu.xml" value="0.17447916666666666" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/monitorsFragment">
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.firstzoom.bluevision.ui.login.LoginFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_login" />
+
+    <fragment
+        android:id="@+id/monitorsFragment"
+        android:name="com.firstzoom.bluevision.ui.monitor.MonitorsFragment"
+        android:label="@string/title_monitor"
+        tools:layout="@layout/fragment_monitors" />
+    <fragment
+        android:id="@+id/groupsFragment"
+        android:name="com.firstzoom.bluevision.ui.groups.GroupsFragment"
+        android:label="@string/title_group"
+        tools:layout="@layout/fragment_groups" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.firstzoom.bluevision.ui.settings.SettingsFragment"
+        android:label="@string/title_settings" />
+    <activity
+        android:id="@+id/exoPlayerActivity"
+        android:name="com.firstzoom.bluevision.ui.view.ExoPlayerActivity"
+        android:label="ExoPlayerActivity" />
+    <fragment
+        android:id="@+id/recordingsFragment"
+        android:name="com.firstzoom.bluevision.ui.recording.RecordingsFragment"
+        android:label="@string/title_recordings" />
+    <fragment
+        android:id="@+id/groupDetailFragment"
+        android:name="com.firstzoom.bluevision.ui.groups.detail.GroupDetailFragment"
+        android:label="GroupDetailFragment" />
+</navigation>

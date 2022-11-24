@@ -1,0 +1,122 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.BlueVision" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryVariant">@color/primaryDarkColor</item>
+        <item name="colorOnPrimary">@color/primaryTextColor</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
+        <item name="colorOnSecondary">@color/secondaryTextColor</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">@color/background</item>
+        <item name="android:fontFamily">@font/arima_madurai</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:navigationBarColor">@color/background </item>
+
+
+        <!-- Customize your theme here. -->
+    </style>
+    <style name="PopupMenu" parent="Widget.Material3.PopupMenu">
+        <item name="android:popupBackground">@color/background</item>
+
+        <item name="android:textColor">@color/primaryTextColor</item>
+    </style>
+    <style name="Theme.App.FullScreen"
+        parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <style name="BottomNavigationTheme" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:colorPrimary">@color/white</item>
+        <item name="android:background">@color/background</item>
+
+    </style>
+
+
+    <style name="Theme.BlueVision.SplashScreen" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/surfaceBlack</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="windowSplashScreenAnimationDuration">200</item>
+        <item name="postSplashScreenTheme">@style/Theme.BlueVision</item>
+    </style>
+
+
+    <style name="Widget.BlueVision.Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">?attr/colorAccent</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
+        <item name="android:theme">@style/Theme.BlueVision</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+    </style>
+
+    <style name="Widget.AppTheme.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+
+        <item name="android:textColorHint">@color/primaryTextColor</item>
+        <item name="hintTextAppearance">@style/TextAppearance.AppTheme.TextInputLayout.HintText
+        </item>
+        <item name="hintTextColor">@color/primaryTextColor</item>
+        <item name="android:textColorPrimary">@color/primaryTextColor</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="boxStrokeColor">@color/background</item>
+        <item name="boxBackgroundColor">@color/light_black</item>
+        <item name="boxCornerRadiusBottomEnd">30dp</item>
+        <item name="boxCornerRadiusBottomStart">30dp</item>
+        <item name="boxCornerRadiusTopStart">30dp</item>
+        <item name="boxCornerRadiusTopEnd">30dp</item>
+
+    </style>
+    <style name="TextAppearance.AppTheme.TextInputLayout.HintText" parent="TextAppearance.MaterialComponents.Subtitle2">
+        <item name="android:textColor">@color/primaryTextColor</item>
+        <item name="android:textSize">@dimen/font_small</item>
+    </style>
+
+
+    <style name="Widget.AppTheme.Button" parent="Widget.MaterialComponents.Button">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="Widget.AppTheme.TextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/secondaryTextColor</item>
+
+
+    </style>
+
+    <style name="Theme.BlueVision.Fullscreen" parent="Theme.BlueVision">
+        <item name="android:actionBarStyle">@style/Widget.Theme.BlueVision.ActionBar.Fullscreen
+        </item>
+        <item name="android:windowActionBarOverlay">true</item>
+        <item name="android:windowBackground">@null</item>
+    </style>
+
+    <style name="ThemeOverlay.BlueVision.FullscreenContainer" parent="">
+        <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
+        <item name="fullscreenTextColor">@color/light_blue_A200</item>
+    </style>
+
+    <style name="MaterialCalendarTheme" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <!-- just override the colors used in the default style -->
+        <item name="colorOnPrimary">@color/primaryTextColor</item>
+        <item name="colorOnSecondary">@color/primaryTextColor</item>
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorSecondary">@color/primaryTextColor</item>
+        <item name="android:textColor">@color/primaryTextColor</item>
+        <item name="colorSurface">@color/background</item>
+        <item name="colorOnSurface">@color/primaryTextColor</item>
+    </style>
+    <!-- Alert Dialog -->
+    <style name="AlertDialoTheme" parent="@style/ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <!-- Background Color-->
+        <item name="android:background">@color/background</item>
+        <!-- Text Color for title and message -->
+        <item name="colorOnSurface">@color/primaryTextColor</item>
+
+    </style>
+</resources>
