@@ -33,7 +33,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     ListItemCameraInfoBinding mBinding;
     Context mContext;
     private List<CameraInfo> mItemList;
-
     public ItemAdapter(Context context) {
         mContext = context;
     }
@@ -41,7 +40,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         mBinding = ListItemCameraInfoBinding.inflate(LayoutInflater.from(mContext), parent, false);
         return new ItemViewHolder(mBinding);
     }
@@ -74,16 +72,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             View.OnClickListener {
         private ListItemCameraInfoBinding mBinding;
 
-
         public ItemViewHolder(@NonNull ListItemCameraInfoBinding binding) {
             super(binding.getRoot());
             mBinding = binding;
             binding.getRoot().findViewById(R.id.thumbnail).setOnClickListener(this);
             binding.getRoot().getRootView().setOnClickListener(this);
             binding.getRoot().findViewById(R.id.textOptions).setOnClickListener(this);
-
-
-
         }
 
         public void bind(CameraInfo item) {
@@ -96,15 +90,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             if(item!=null && item.getDescription()!=null) {
                 mBinding.itemDescription.setText(item.getDescription());
             }
-           /* if(item!=null && item.getRecordings()!=null && item.getRecordings().size()>0)
-                mBinding.recordings.setVisibility(View.VISIBLE);
-            else
-                mBinding.recordings.setVisibility(View.GONE);
-
-            */
-
-            Log.d(AppConstants.TAG,"Url is "+item.getImage_url());
-            //AppUtil.setImage(mContext,null,mBinding.thumbnail);
             AppUtil.setImage(mContext,item.getImage_url(),mBinding.thumbnail);
 
         }
@@ -116,20 +101,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                 navigateVideo(view,item);
             }
             else{
-
                 showPopUp(mBinding.thumbnail,item);
-
             }
-
-
-
         }
 
         private void showPopUp(View view, CameraInfo cameraInfo) {
             PopupMenu popup = new PopupMenu(mContext, view,Gravity.LEFT ,0,R.style.PopupMenu);
-            //inflating menu from xml resource
             popup.inflate(R.menu.camera_menu);
-            //adding click listener
             popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
@@ -148,20 +126,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
                     }
                 }
             });
-            //displaying the popup
             popup.show();
         }
 
         private void navigateRecordings(View view, CameraInfo item) {
             Navigation.findNavController(view).navigate(R.id.recordingsFragment,BlueVisionUtil.getCameraBundle(item));
-            //  Navigation.findNavController(view).navigate(R.id.exoPlayerActivity, AppUtil.getBundle(item,false));
         }
         private void navigateVideo( View view,CameraInfo item) {
-            Log.d(AppConstants.TAG,"Video Url"+BlueVisionUtil.getFeedUrl(item,mContext));
             Navigation.findNavController(view).navigate(R.id.exoPlayerActivity,
                     BlueVisionUtil.getBundleUrl(BlueVisionUtil.getFeedUrl(item,mContext)));
-
-          //  Navigation.findNavController(view).navigate(R.id.exoPlayerActivity, AppUtil.getBundle(item,false));
         }
     }
     public void refreshCamera(CameraInfo info){}

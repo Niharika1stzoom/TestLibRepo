@@ -43,13 +43,11 @@ public class SettingsFragment extends Fragment {
         //notificationsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         binding.signout.setOnClickListener(view ->
                 {
+                    SharedPrefUtils.delUser(getContext().getApplicationContext());
                     SharedPrefUtils.delToken(getContext().getApplicationContext());
                     SharedPrefUtils.delUrl(getContext().getApplicationContext());
-                    SharedPrefUtils.delUser(getContext().getApplicationContext());
                     navigate();
                 });
-
-
         setDetails();
         return root;
     }
@@ -62,15 +60,13 @@ public class SettingsFragment extends Fragment {
     }
 
     private void navigate() {
-        //NavOptions.Builder navBuilder = new NavOptions.Builder();
-        //NavOptions navOptions = navBuilder.setPopUpTo(R.id.mobile_navigation,true).build();
         getActivity().finish();
         Intent intent=new Intent(getActivity(), MainActivity.class);
         startActivity(intent);
       //  NavHostFragment.findNavController(this).popBackStack();
        // NavHostFragment.findNavController(this).navigate(R.id.loginFragment);
     }
-    // NavHostFragment.findNavController(this).navigate(R.id.loginFragment,null,navOptions);
+
 
     @Override
     public void onDestroyView() {

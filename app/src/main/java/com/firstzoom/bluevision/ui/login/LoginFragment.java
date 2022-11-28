@@ -34,10 +34,13 @@ import com.firstzoom.bluevision.R;
 import com.firstzoom.bluevision.databinding.FragmentLoginBinding;
 import com.firstzoom.bluevision.model.User;
 import com.firstzoom.bluevision.util.AppConstants;
+import com.firstzoom.bluevision.util.AppUtil;
 import com.firstzoom.bluevision.util.BlueVisionUtil;
 import com.firstzoom.bluevision.util.SharedPrefUtils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
 import com.google.firebase.dynamiclinks.PendingDynamicLinkData;
 
@@ -81,22 +84,23 @@ public class LoginFragment extends Fragment {
                     @Override
                     public void onSuccess(PendingDynamicLinkData pendingDynamicLinkData) {
                         // Get deep link from result (may be null if no link is found)
-
-                        Log.d(AppConstants.TAG,"Success");
                         Uri deepLink = null;
                         if (pendingDynamicLinkData != null) {
-
                             deepLink = pendingDynamicLinkData.getLink();
                             try {
                                 String token = deepLink.getQueryParameter(KEY_TOKEN);
-                                Log.d(AppConstants.TAG,"Success Pending token "+token);
-                                Log.d(AppConstants.TAG,"Success Pending url"+deepLink.getAuthority());
+                                Log.d(AppConstants.TAG,"Got token from link "+token);
+                                Log.d(AppConstants.TAG,"Got url from link"+deepLink.getAuthority());
                                 if (deepLink.getBooleanQueryParameter(
                                         KEY_TOKEN, false)) {
                                     token = deepLink.getQueryParameter(KEY_TOKEN);
                                     if (!TextUtils.isEmpty(token)) {
                                         String url=BlueVisionUtil.validateBaseUrl(deepLink.getAuthority());
-                                        Log.d(AppConstants.TAG,"Got url"+url);
+                                        if(url==null || TextUtils.isEmpty(url)) {
+                                            showLoginFailed(R.string.login_failed);
+                                            return;
+
+                                        }
                                         showLoadingScreen();
                                         SharedPrefUtils.saveUrl(getContext().getApplicationContext(),url);
                                         SharedPrefUtils.saveToken(getContext().getApplicationContext(),token);
@@ -110,6 +114,7 @@ public class LoginFragment extends Fragment {
                                 }
                             }catch (Exception e) {
                                 Log.d(AppConstants.TAG, "error in login" + e.toString());
+                                showLoginFailed(R.string.login_failed);
                             }
                         }
                     }
@@ -143,15 +148,6 @@ public class LoginFragment extends Fragment {
     public void onResume() {
         super.onResume();
         ((MainActivity)getActivity()).getSupportActionBar().hide();
-       /* if(SharedPrefUtils.getUrl(getContext().getApplicationContext())!=null && !
-                TextUtils.isEmpty(SharedPrefUtils.getUrl(getContext().getApplicationContext()))
-        ) {
-            Log.d(AppConstants.TAG,"old url"+SharedPrefUtils.getUrl(getContext().getApplicationContext()));
-            binding.urlLabel.setVisibility(View.GONE);
-            binding.url.setVisibility(View.GONE);
-        }
-
-        */
     }
 
     @Override
@@ -167,6 +163,7 @@ public class LoginFragment extends Fragment {
         final EditText urlEditText = binding.url;
         final Button loginButton = binding.login;
         final ProgressBar loadingProgressBar = binding.loading;
+        binding.loginQR.setOnClickListener(view1 -> showQRLoginDetail());
         loginViewModel.getLoginFormState().observe(getViewLifecycleOwner(),
                 new Observer<LoginFormState>() {
                     @Override
@@ -228,13 +225,12 @@ public class LoginFragment extends Fragment {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     String url=null;
-                    if(urlEditText.getVisibility()==View.VISIBLE)
-                    url=loginViewModel.isUrlValid(urlEditText.getText().toString());
-                    if(url!=null){
-                        loadingProgressBar.setVisibility(View.VISIBLE);
-                        loginViewModel.login(usernameEditText.getText().toString(),
-                                passwordEditText.getText().toString(), url);
+                    if(urlEditText.getVisibility()==View.VISIBLE) {
+                        url = loginViewModel.isUrlValid(urlEditText.getText().toString());
                     }
+                    loadingProgressBar.setVisibility(View.VISIBLE);
+                    loginViewModel.login(usernameEditText.getText().toString(),
+                            passwordEditText.getText().toString(), url);
                 }
                 return false;
             }
@@ -244,17 +240,12 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String url=null;
-                Log.d(AppConstants.TAG,"Login clicked"+SharedPrefUtils.getUrl(getContext().getApplicationContext()));
                 if(urlEditText.getVisibility()==View.VISIBLE) {
-                    Log.d(AppConstants.TAG,"Success Visible");
                     url = loginViewModel.isUrlValid(urlEditText.getText().toString());
                 }
-
-                    Log.d(AppConstants.TAG,"Success url null");
-                    loadingProgressBar.setVisibility(View.VISIBLE);
-                    loginViewModel.login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString(), url);
-
+                loadingProgressBar.setVisibility(View.VISIBLE);
+                        loginViewModel.login(usernameEditText.getText().toString(),
+                                passwordEditText.getText().toString(), url);
             }
         });
 
@@ -267,10 +258,11 @@ public class LoginFragment extends Fragment {
 
     private void showLoginFailed(@StringRes Integer errorString) {
         if (getContext() != null && getContext().getApplicationContext() != null) {
-            Toast.makeText(
+            AppUtil.showSnackbarLong(getView(),getString(errorString));
+           /* Toast.makeText(
                     getContext().getApplicationContext(),
                     errorString,
-                    Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_LONG).show();*/
           showLoginScreen();
         }
     }
@@ -279,6 +271,21 @@ public class LoginFragment extends Fragment {
         binding.loginGroup.setVisibility(View.VISIBLE);
         binding.loading.setVisibility(View.INVISIBLE);
         binding.appLogoCenter.setVisibility(View.GONE);
+    }
+    private void showQRLoginDetail(){
+        String msg="\t1. On a web browser and \n" +
+                "\t    go to your BlueVision web app\n" +
+                "\t2. Login entering credentials\n" +
+                "\t3. Go to the Subscription tab and \n" +
+                "\t4. Scan the QR code \n " +
+                "\t    from your mobile\n" +
+                "\t5. This will auto login you \n" +
+                "\t    to the mobile app. ";
+        new MaterialAlertDialogBuilder(getContext(),R.style.AlertDialoTheme)
+                .setTitle("Login using QR code")
+                .setMessage(msg)
+                .setNegativeButton("Cancel", /* listener = */ null)
+                .show();
     }
 
     @Override

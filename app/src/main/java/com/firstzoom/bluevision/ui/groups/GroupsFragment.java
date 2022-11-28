@@ -34,7 +34,6 @@ import dagger.hilt.android.AndroidEntryPoint;
 
 @AndroidEntryPoint
 public class GroupsFragment extends Fragment {
-
     private FragmentGroupsBinding binding;
     private GroupAdapter mAdapter;
     private GroupsViewModel mViewModel;
@@ -70,10 +69,6 @@ public class GroupsFragment extends Fragment {
                     } else {
                         hideEmptyView();
                         mAdapter.setList(list);
-
-                        //  else
-                        //    mAdapter.setList(mViewModel.getLocationFilterList(mViewModel.getLocationsValue()
-                        //          .get(mViewModel.getLocationPositionValue()-1)));
                     }
                 });
     }

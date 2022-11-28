@@ -44,8 +44,9 @@
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swiperefresh"
         app:layout_constraintTop_toBottomOf="@id/rangeSlider"
+        android:layout_marginTop="@dimen/date_time_recording_margin"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
@@ -72,6 +73,7 @@
         android:textColor="@color/primaryColor"
         android:textSize="@dimen/font_small"
         android:layout_margin="@dimen/margin"
+
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/dateButton" />

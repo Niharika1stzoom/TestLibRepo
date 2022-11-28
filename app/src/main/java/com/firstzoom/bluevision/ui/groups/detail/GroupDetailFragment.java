@@ -59,10 +59,6 @@ public class GroupDetailFragment extends Fragment {
         return root;
     }
 
-    void showList(List<CameraInfo> camerasList) {
-        mAdapter.setList(camerasList);
-    }
-
     private void displayCameras() {
         hideLoader();
         if (binding.swiperefresh.isRefreshing())
@@ -84,16 +80,13 @@ public class GroupDetailFragment extends Fragment {
         mViewModel.pausePlayers(binding.recyclerView);
     }
 
-
-
     @Override
     public void onResume() {
         super.onResume();
         setTitle();
     }
 
-
-        private void setTitle() {
+    private void setTitle() {
             if (mViewModel.getGroup()!= null) {
                 if (((AppCompatActivity) getActivity()).getSupportActionBar() != null)
                     ((AppCompatActivity) getActivity()).getSupportActionBar()
@@ -106,14 +99,13 @@ public class GroupDetailFragment extends Fragment {
         mAdapter = new GroupDetailAdapter(getContext()){
             @Override
             public void refreshCamera(CameraInfo info){
-                AppUtil.showSnackbar(binding.recyclerView,"Refreshing");
+                AppUtil.showSnackbar2(getView(),((AppCompatActivity) getActivity()).findViewById(R.id.nav_view), "Refreshing");
                 mViewModel.refreshCamera(info);
             }
         };
         binding.recyclerView.setAdapter(mAdapter);
         binding.swiperefresh.setOnRefreshListener(
                 () -> {
-
                 }
         );
 

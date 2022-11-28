@@ -39,9 +39,7 @@ public class MonitorsViewModel extends AndroidViewModel {
     }
 
     public ArrayList<CameraInfo> filter(String text) {
-        // creating a new array list to filter our data.
         ArrayList<CameraInfo> filteredlist = new ArrayList<CameraInfo>();
-        // running a for loop to compare elements.
         if(getList().getValue()!=null)
             for (CameraInfo item : getList().getValue())
                 if (item.getName().toLowerCase().contains(text.toLowerCase()))

@@ -92,8 +92,6 @@ public class GroupDetailAdapter extends RecyclerView.Adapter<GroupDetailAdapter.
                 mBinding.itemDescription.setText(item.getDescription());
             }
             setVideoUrl(mBinding.thumbnail, BlueVisionUtil.getFeedUrl(item, mContext));
-
-
         }
 
         @Override
@@ -106,28 +104,22 @@ public class GroupDetailAdapter extends RecyclerView.Adapter<GroupDetailAdapter.
         }
         private void showPopUp(View view, CameraInfo cameraInfo) {
             PopupMenu popup = new PopupMenu(mContext, view, Gravity.LEFT ,0,R.style.PopupMenu);
-            //inflating menu from xml resource
             popup.inflate(R.menu.camera_menu);
-            //adding click listener
-            popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    switch (item.getItemId()) {
-                        case R.id.recordings:
-                            navigateRecordings(view, cameraInfo);
-                            return true;
-                        case R.id.refresh:
-                            refreshCamera(cameraInfo);
-                            return true;
-                        case R.id.feed:
-                            navigateVideo(view,cameraInfo);
-                            return true;
-                        default:
-                            return false;
-                    }
+            popup.setOnMenuItemClickListener(item -> {
+                switch (item.getItemId()) {
+                    case R.id.recordings:
+                        navigateRecordings(view, cameraInfo);
+                        return true;
+                    case R.id.refresh:
+                        refreshCamera(cameraInfo);
+                        return true;
+                    case R.id.feed:
+                        navigateVideo(view,cameraInfo);
+                        return true;
+                    default:
+                        return false;
                 }
             });
-            //displaying the popup
             popup.show();
         }
 
@@ -148,12 +140,9 @@ public class GroupDetailAdapter extends RecyclerView.Adapter<GroupDetailAdapter.
             playerView.setPlayer(player);
             Uri uri = Uri.parse(filePath);
             MediaItem mediaItem = MediaItem.fromUri(uri);
-// Set the media item to be played.
             player.setMediaItem(mediaItem);
-// Prepare the player.
             player.prepare();
-// Start the playback.
-            // player.play();
+            //player.play();
         }
 
     }

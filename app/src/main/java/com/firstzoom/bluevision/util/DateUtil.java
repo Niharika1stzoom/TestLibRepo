@@ -45,13 +45,11 @@ public class DateUtil {
     }
 
    public static int getTimeInMins(Date time){
-        long millis=time.getTime();
-       int finalMins= (int) TimeUnit.MILLISECONDS.toMinutes(millis);
 
         int mins = time.getMinutes();
         int hour = time.getHours();
         int timeInMins = hour * 60 + mins;
-        Log.d(AppConstants.TAG,"Mins"+finalMins+" "+mins);
+
         return timeInMins;
     }
 
@@ -67,7 +65,7 @@ public class DateUtil {
         c.setTime(date);
         int hours = (int) Math.floor(Math.round(value) / 60);
         int mins = (int) (Math.round(value) % 60);
-        c.set(Calendar.HOUR,hours);
+        c.set(Calendar.HOUR_OF_DAY,hours);
         c.set(Calendar.MINUTE,mins);
         return c.getTime();
 

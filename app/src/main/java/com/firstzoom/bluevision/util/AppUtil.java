@@ -3,6 +3,7 @@ package com.firstzoom.bluevision.util;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.media.MediaMetadataRetriever;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -36,6 +37,9 @@ public class AppUtil {
     public static void showSnackbar(View view, String msg) {
         Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show();
     }
+    public static void showSnackbarLong(View view, String msg) {
+        Snackbar.make(view, msg, Snackbar.LENGTH_LONG).show();
+    }
 
     public static boolean isNetworkAvailableAndConnected(Context context) {
         ConnectivityManager cm =
@@ -54,7 +58,7 @@ public class AppUtil {
                 .into(imageView);
        else
            Glide.with(context)
-                   .load("https://cmb-blob.s3.amazonaws.com/snapshot/74a92108-40b2-44d8-8305-cacca2af3c21/74a92108-40b2-44d8-8305-cacca2af3c21_2022-_MGbv8jD.jpg?AWSAccessKeyId=AKIA5QXJJLBX5DKAMWC7&Signature=4rYCitWtMO36oqWOzBD9%2B9vPNXM%3D&Expires=1668604840")
+                   .load("")
                    .placeholder(R.drawable.image_placeholder)
                    .centerCrop()
                    .into(imageView);
@@ -135,5 +139,6 @@ public class AppUtil {
         return new Date();
         // return cal.getTime();
     }
+
 }
 

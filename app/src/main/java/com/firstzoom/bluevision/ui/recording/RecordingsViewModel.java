@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.inject.Inject;
 
@@ -35,8 +37,10 @@ public class RecordingsViewModel extends AndroidViewModel {
     Repository repository;
     Context mContext;
     private final MutableLiveData<Date> mDate = new MutableLiveData<>();
+    private final MutableLiveData<Integer> mDurationVideo = new MutableLiveData<>();
     MutableLiveData<CameraInfo> recordingInfo=new MutableLiveData<>();
     MutableLiveData<SliderTime> sliderTime=new MutableLiveData<>();
+    ExecutorService executor = Executors.newSingleThreadExecutor();
     //This does not have recordings
     private CameraInfo cameraInfo;
     @Inject
@@ -45,6 +49,10 @@ public class RecordingsViewModel extends AndroidViewModel {
         mContext=application.getApplicationContext();
         mDate.setValue(AppUtil.getTodayDate());
         sliderTime.setValue(new SliderTime(DateUtil.atStartOfDay(AppUtil.getTodayDate()),DateUtil.atEndOfDay(AppUtil.getTodayDate())));
+    }
+
+    public LiveData<Integer> getDurationVideo() {
+        return mDurationVideo;
     }
 
     public void setSliderTime(SliderTime time) {
@@ -112,18 +120,31 @@ public class RecordingsViewModel extends AndroidViewModel {
 
     public void setDate(Date date) {
         mDate.setValue(date);
+        mDurationVideo.setValue(0);
         sliderTime.setValue(new SliderTime(DateUtil.atStartOfDay(date),DateUtil.atEndOfDay(date)));
     }
 
     public List<String> getFilterByTimeList() {
         ArrayList<String>  filterList=new ArrayList<>();
         if(recordingInfo.getValue()!=null && recordingInfo.getValue().getRecordings()!=null && recordingInfo.getValue().getRecordings().size()>0)
-        for(String name:recordingInfo.getValue().getRecordings()){
-            Date time= BlueVisionUtil.getDateFromFileName(name,mDate.getValue());
-            Log.d(AppConstants.TAG,"File is "+time);
-            if(sliderTime.getValue().getStart().before(time) && sliderTime.getValue().getEnd().after(time))
-                filterList.add(name);
+        for(String name:recordingInfo.getValue().getRecordings()) {
+            Date startTime = BlueVisionUtil.getDateFromFileName(name, mDate.getValue());
+            if (startTime != null){
+                Date endTime=null;
+                if(mDurationVideo.getValue()!=null && mDurationVideo.getValue()!=0)
+                endTime = BlueVisionUtil.addMinutes(startTime, mDurationVideo.getValue());
+                if (sliderTime.getValue().getStart().before(startTime) && sliderTime.getValue().getEnd().after(startTime) ||
+                       endTime!=null && sliderTime.getValue().getStart().before(endTime) && sliderTime.getValue().getEnd().after(endTime)
+                )
+                    filterList.add(name);
+            }
         }
         return filterList;
+    }
+
+    public void getDuration() {
+        executor.execute(() -> {
+           mDurationVideo.postValue(BlueVisionUtil.getDurationVideoUrl(recordingInfo.getValue().getRecordings().get(0)));
+        });
     }
 }

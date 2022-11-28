@@ -35,4 +35,5 @@
     <dimen name="bottom_nav_height">60dp</dimen>
     <dimen name="padding_xxSmall">2dp</dimen>
     <dimen name="padding_large">32dp</dimen>
+    <dimen name="date_time_recording_margin">108dp</dimen>
 </resources>

@@ -50,29 +50,29 @@ public class LoginViewModel extends AndroidViewModel {
 
 
     public void login(String username, String password, String url) {
-        Log.d(AppConstants.TAG,"New url is bef"+url);
         if(url!=null)
         SharedPrefUtils.saveUrl(mContext,url);
-        Log.d(AppConstants.TAG,"New url is"+SharedPrefUtils.getUrl(mContext));
+        Log.d(AppConstants.TAG,"Retrofit url is"+SharedPrefUtils.getUrl(mContext));
         new Repository(ApiModule.getRestApiInterface(ApiModule.getInstance(SharedPrefUtils.getUrl(mContext)))).login(username, password,loginResult,mContext);
         //repository.login(username, password,loginResult,mContext);
     }
     public void validate(String url) {
-        Log.d(AppConstants.TAG,"Validating");
+        Log.d(AppConstants.TAG,"Retrofit url through link is"+SharedPrefUtils.getUrl(mContext));
         new Repository(ApiModule.getRestApiInterface(
                 ApiModule.getInstance(url))).validate(loginResult,mContext);
 
     }
 
     public void loginDataChanged(String username, String password,String url) {
+          if (!isUrlEmpty(url) || isUrlValid(url)==null) {
+            loginFormState.setValue(new LoginFormState(null,null, R.string.invalid_url));
+        }else
         if (!isUserNameValid(username)) {
             loginFormState.setValue(new LoginFormState(R.string.invalid_username, null,null));
-        } //else if (!isPasswordValid(password)) {
-            //loginFormState.setValue(new LoginFormState(null, R.string.invalid_password,null));
-        //}
-        else if (!isUrlEmpty(url)) {
-            loginFormState.setValue(new LoginFormState(null,null, R.string.invalid_url));
+        } else if (!isPasswordValid(password)) {
+            loginFormState.setValue(new LoginFormState(null, R.string.invalid_password,null));
         }
+
         else {
             loginFormState.setValue(new LoginFormState(true));
         }
@@ -81,12 +81,15 @@ public class LoginViewModel extends AndroidViewModel {
 
      String isUrlValid(String url) {
         URI uri=null;
+         String scheme=null,authority=null;
         try {
             uri = new URI (url);
+
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-        String scheme=uri.getScheme();
+        if(uri!=null)
+        scheme=uri.getScheme();
         if(scheme==null)
         {
             String newUrl="https://"+url;
@@ -97,11 +100,11 @@ public class LoginViewModel extends AndroidViewModel {
             }
 
         }
-        String authority=uri.getAuthority();
+        if(uri!=null)
+        authority=uri.getAuthority();
         if(authority!=null && isValidURLSequence(url)) {
             if(authority.contains("www.")){
                 authority=authority.replace("www.","");
-                Log.d(AppConstants.TAG,"Repla authority"+authority);
             }
             String baseURL = "https://" + authority + "/";
             Log.d(AppConstants.TAG, "base url is" + baseURL);
@@ -109,7 +112,6 @@ public class LoginViewModel extends AndroidViewModel {
             return baseURL;
         }
         else{
-            Log.d(AppConstants.TAG, "wronh url is" + uri.getHost() + " " + uri.getScheme() + " " + uri.getAuthority());
             loginFormState.setValue(new LoginFormState(null,null, R.string.invalid_url));
             return null;
         }

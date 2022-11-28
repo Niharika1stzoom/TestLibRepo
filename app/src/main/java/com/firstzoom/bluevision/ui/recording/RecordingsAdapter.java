@@ -76,6 +76,7 @@ public class RecordingsAdapter extends RecyclerView.Adapter<RecordingsAdapter.Re
     public class RecordingViewHolder extends RecyclerView.ViewHolder implements
             View.OnClickListener {
         public ListItemRecordingBinding mBinding;
+
         public RecordingViewHolder(@NonNull ListItemRecordingBinding binding) {
             super(binding.getRoot());
             mBinding = binding;
@@ -89,7 +90,6 @@ public class RecordingsAdapter extends RecyclerView.Adapter<RecordingsAdapter.Re
                 mBinding.itemName.setText(BlueVisionUtil.getFileName(item));
             }
             setVideoUrl(mBinding.thumbnail, item);
-            Log.d(AppConstants.TAG, "Video url is" + item);
         }
 
         @Override
@@ -105,19 +105,13 @@ public class RecordingsAdapter extends RecyclerView.Adapter<RecordingsAdapter.Re
     }
 
     private void setVideoUrl(StyledPlayerView playerView, String url) {
-        // Build a HttpDataSource.Factory with cross-protocol redirects enabled.
         ExoPlayer player = BlueVisionUtil.getExoPlayer(mContext);
         String filePath = url;
-        //ExoPlayer player = new ExoPlayer.Builder(mContext).build();
         playerView.setPlayer(player);
         Uri uri = Uri.parse(filePath);
         MediaItem mediaItem = MediaItem.fromUri(uri);
-// Set the media item to be played.
         player.setMediaItem(mediaItem);
-// Prepare the player.
         player.prepare();
-        Log.d(AppConstants.TAG,"Dur "+url+player.getDuration());
-// Start the playback.
         // player.play();
     }
 }

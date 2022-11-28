@@ -43,6 +43,9 @@ public class MonitorsFragment extends Fragment {
     private FragmentMonitorsBinding binding;
     private ItemAdapter mAdapter;
     private MonitorsViewModel mViewModel;
+    private MenuItem searchItem;
+    private SearchView searchView;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -61,17 +64,7 @@ public class MonitorsFragment extends Fragment {
         if(mViewModel.getList().getValue()==null) {
             mViewModel.getMonitors();
         }
-        String s="https://bluevision.page.link/?link="+"http://www.1stzoom.com/?url=disposafe.1stzoom.com&token=jwtToken"+
-                "&apn="+ getContext().getApplicationContext().getPackageName()+
-                "&st="+getContext().getString(R.string.app_name)+
-                "&sd="+
-                "&si=";
-        Log.d(AppConstants.TAG,"url "+s);
         return root;
-    }
-
-    void showList(List<CameraInfo> camerasList){
-        mAdapter.setList(camerasList);
     }
 
     @Override
@@ -102,7 +95,7 @@ public class MonitorsFragment extends Fragment {
         mAdapter =new ItemAdapter(getContext()){
             @Override
             public void refreshCamera(CameraInfo info){
-                AppUtil.showSnackbar(binding.recyclerView,"Refreshing");
+                AppUtil.showSnackbar2(getView(),((AppCompatActivity) getActivity()).findViewById(R.id.nav_view), "Refreshing camera");
                 mViewModel.refreshCamera(info);
             }
         };
@@ -135,28 +128,34 @@ public class MonitorsFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
-        super.onDestroyView();
+        if(searchView!=null) {
+            searchView.clearFocus();
+            searchView.setIconified(true);
+            searchView.setIconified(true);
+        }
         binding = null;
+        super.onDestroyView();
     }
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         //inflate menu
-        inflater.inflate(R.menu.search_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
-        MenuItem searchItem = menu.findItem(R.id.actionSearch);
-        SearchView searchView = (SearchView) searchItem.getActionView();
+        inflater.inflate(R.menu.search_menu, menu);
+
+         searchItem = menu.findItem(R.id.actionSearch);
+         searchView = (SearchView) searchItem.getActionView();
+         searchView.setIconified(true);
         // below line is to call set on query text listener method.
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
             @Override
             public boolean onQueryTextSubmit(String query) {
-
                 return false;
             }
             @Override
             public boolean onQueryTextChange(String query) {
                 List<CameraInfo> filteredlist= mViewModel.filter(query);
-                if(!searchView.isIconified())
-                if (filteredlist.isEmpty()) {
+                if (filteredlist.isEmpty() && !searchView.isIconified()) {
                     Toast.makeText(getContext(), "No Data Found..", Toast.LENGTH_SHORT).show();
                 } else {
                     mAdapter.setList(filteredlist);
@@ -164,8 +163,5 @@ public class MonitorsFragment extends Fragment {
                 return false;
             }
         });
-
     }
-
-
 }

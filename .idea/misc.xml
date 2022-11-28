@@ -5,6 +5,9 @@
       <map>
         <entry key="..\:/niharika/android/BlueVision/app/src/main/res/drawable-anydpi/ic_action_acamera_dark.xml" value="0.1" />
         <entry key="..\:/niharika/android/BlueVision/app/src/main/res/drawable-anydpi/ic_action_arrow.xml" value="0.1" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/drawable-anydpi/ic_action_cam.xml" value="0.1145" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/drawable-anydpi/ic_action_camera_yellow.xml" value="0.1145" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/drawable-anydpi/ic_action_cameras.xml" value="0.1145" />
         <entry key="..\:/niharika/android/BlueVision/app/src/main/res/drawable-anydpi/ic_action_full_screen.xml" value="0.115" />
         <entry key="..\:/niharika/android/BlueVision/app/src/main/res/drawable-anydpi/ic_action_play.xml" value="0.1" />
         <entry key="..\:/niharika/android/BlueVision/app/src/main/res/drawable-anydpi/ic_action_playback.xml" value="0.115" />
@@ -17,11 +20,11 @@
         <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/fragment_group_detail.xml" value="0.3333333333333333" />
         <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/fragment_groups.xml" value="0.1" />
-        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/fragment_login.xml" value="0.14666666666666667" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/fragment_login.xml" value="0.3333333333333333" />
         <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/fragment_monitors.xml" value="0.3333333333333333" />
         <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/fragment_recordings.xml" value="0.1" />
         <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/fragment_settings.xml" value="0.1" />
-        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/list_item_camera_info.xml" value="0.17552083333333332" />
+        <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/list_item_camera_info.xml" value="0.3333333333333333" />
         <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/list_item_group.xml" value="0.14666666666666667" />
         <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/list_item_group_detail.xml" value="0.1" />
         <entry key="..\:/niharika/android/BlueVision/app/src/main/res/layout/list_item_recording.xml" value="0.1" />

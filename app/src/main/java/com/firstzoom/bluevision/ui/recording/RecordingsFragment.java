@@ -85,11 +85,12 @@ public class RecordingsFragment extends Fragment {
                         if (!AppUtil.isNetworkAvailableAndConnected(getContext()))
                             AppUtil.showSnackbar2(getView(), ((AppCompatActivity) getActivity()).findViewById(R.id.nav_view), getString(R.string.network_err));
                         displayEmptyView();
-                        Log.d(AppConstants.TAG, "Displaying empty");
                     } else {
-                        Log.d(AppConstants.TAG, "Displaying not empty empty" + recordingInfo.getRecordings().size());
                         hideEmptyView();
                         mAdapter.setList(recordingInfo.getRecordings());
+                        mViewModel.getDurationVideo().observe(getViewLifecycleOwner(),duration->
+                                Log.d(AppConstants.TAG,"Duration is"+duration));
+                        mViewModel.getDuration();
 
                     }
                 });
@@ -126,9 +127,6 @@ public class RecordingsFragment extends Fragment {
     }
 
     void setSlider() {
-       // Float[] arr=new Float[]{250f,1440f};
-        //binding.rangeSlider.setValues(arr);
-        //binding.rangeSlider.setValues(new Float[]{Float.valueOf(DateUtil.getTimeInMins(mViewModel.getSliderTime().getValue().getStart())),Float.valueOf(DateUtil.getTimeInMins(mViewModel.getSliderTime().getValue().getEnd()))});
         binding.rangeSlider.setLabelBehavior(LabelFormatter.LABEL_VISIBLE);
        // binding.rangeSlider.setStepSize();
         binding.rangeSlider.setLabelFormatter(new LabelFormatter() {
@@ -138,7 +136,7 @@ public class RecordingsFragment extends Fragment {
                 int hours = (int) Math.floor(Math.round(value) / 60);
                 int mins = (int) (Math.round(value) % 60);
                 if(hours==23 && mins==59)
-                    return "24:00";
+                   return "24:00";
                 else
                 return hours + ":" + mins;
             }
@@ -155,10 +153,6 @@ public class RecordingsFragment extends Fragment {
                         DateUtil.getDateFromMins(slider.getValues().get(1),mViewModel.getDate().getValue()));
                 mViewModel.setSliderTime(temp);
                 mAdapter.setList(mViewModel.getFilterByTimeList());
-
-                Log.d(AppConstants.TAG,"From " +temp.getStart());
-                Log.d(AppConstants.TAG,"T0 "+ temp.getEnd());
-
             }
         });
 
@@ -208,15 +202,15 @@ public class RecordingsFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         //inflate menu
-        inflater.inflate(R.menu.search_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.search_menu, menu);
         MenuItem searchItem = menu.findItem(R.id.actionSearch);
         SearchView searchView = (SearchView) searchItem.getActionView();
         // below line is to call set on query text listener method.
+        searchView.setIconified(true);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
                 return false;
             }
 
@@ -234,7 +228,5 @@ public class RecordingsFragment extends Fragment {
         });
 
     }
-
-
 }
   
