@@ -13,6 +13,10 @@ public class User {
     Boolean getNotify;
     String baseUrl;
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public Boolean getLoggedIn() {
         return isLoggedIn;
     }

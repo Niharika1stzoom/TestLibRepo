@@ -46,16 +46,15 @@ public class Repository {
                         String cookie = response.headers().get("Set-Cookie");
                         User user = response.body();
                         user.setToken(cookie);
-                        user.setEmail(username);
-                        Log.d(AppConstants.TAG, "The user is" + response.body().getLoggedIn());
                         liveData.setValue(new LoginResult(user));
                         setLoggedInUser(user, context);
                     }
-                    else
+                    else {
                         liveData.setValue(new LoginResult(R.string.login_failed));
+
+                    }
                 } else {
                     liveData.setValue(new LoginResult(R.string.login_failed));
-                     Log.d(AppConstants.TAG,"Fail"+response.message()+response.code());
                 }
             }
 
@@ -66,8 +65,41 @@ public class Repository {
             }
         });
     }
+    public void validate(
+            MutableLiveData<LoginResult> liveData, Context context) {
+        Call<User> call = mApiInterface.validate(SharedPrefUtils.getToken(context));
+        call.enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(@NonNull Call<User> call,
+                                   @NonNull Response<User> response) {
+                if (response.isSuccessful()) {
+                        if(response.body().getLoggedIn()){
+                        String cookie = response.headers().get("Set-Cookie");
+                        User user = response.body();
+                        user.setToken(cookie);
+                        liveData.setValue(new LoginResult(user));
+                        setLoggedInUser(user, context);
+
+                        }
+                    else {
+
+                        liveData.setValue(new LoginResult(R.string.login_failed));
+                        }
+                } else {
+                    liveData.setValue(new LoginResult(R.string.link_expired));
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
+                liveData.setValue(new LoginResult(R.string.login_unable));
+                Log.d(AppConstants.TAG, "Failure" + t.getLocalizedMessage());
+            }
+        });
+    }
     private void setLoggedInUser(User user, Context context) {
         SharedPrefUtils.setUser(context, user);
+        SharedPrefUtils.saveUsername(context,user.email);
     }
 
     void delUser(Context context) {
@@ -78,6 +110,7 @@ public class Repository {
         //cookie
         return SharedPrefUtils.getUser(context).getToken();
     }
+
 
   /*  public void validate(
             MutableLiveData<Boolean> liveData, Context context) {
@@ -101,14 +134,14 @@ public class Repository {
         });
     }
 */
-    public void getCameras(MutableLiveData<List<CameraInfo>> liveData, Context mContext) {
+    public void getCameras(MutableLiveData<List<CameraInfo>> liveData, Context mContext,MutableLiveData<String> sessionData) {
         Call<List<CameraInfo>> call = mApiInterface.getCameras(getHeaderToken(mContext));
-        //Log.d(AppConstants.TAG,"Camera fetch"+getHeaderToken((mContext)));
         call.enqueue(new Callback<List<CameraInfo>>() {
             @Override
             public void onResponse(@NonNull Call<List<CameraInfo>> call,
                                    @NonNull Response<List<CameraInfo>> response) {
                 if (response.isSuccessful()) {
+
                     if(response.body().size()>0)
                     Collections.sort(response.body(), new Comparator<CameraInfo>() {
                         @Override
@@ -119,25 +152,25 @@ public class Repository {
                     CameraDatabaseSingleton.getInstance().setCameraList(response.body());
                     liveData.postValue(response.body());
                 } else {
-
-                  /*  if(response.code()==500)
+                    if(response.code()==401)
                     {
-                        loginCookie(SharedPrefUtils.getUser(mContext).getEmail(),SharedPrefUtils.getUser(mContext).getPassword(),
-                                new MutableLiveData<LoginResult>(),mContext,liveData);
+                       //Log.d(AppConstants.TAG,"logging out" +response.code());
+                      sessionData.postValue(AppConstants.LOGOUT);
+                       //   loginCookie(SharedPrefUtils.getUser(mContext).getEmail(),SharedPrefUtils.getUser(mContext).getPassword(), new MutableLiveData<LoginResult>(),mContext,liveData);
                     }
-                    else*/
+                    else
                         liveData.postValue(null);
-                    Log.d(AppConstants.TAG, "Camera fetch failed for cam in success" + response.message()+response.code()+response.errorBody().toString());
+
                 }
             }
             @Override
             public void onFailure(@NonNull Call<List<CameraInfo>> call, @NonNull Throwable t) {
-                Log.d(AppConstants.TAG, "Camera fetch failed for cam" + t.getLocalizedMessage()+t.getCause());
+                Log.d(AppConstants.TAG, "Camera fetch failed" + t.getLocalizedMessage()+t.getCause());
                 liveData.postValue(null);
             }
         });
     }
-
+/*
     private void loginCookie(String username, String password, MutableLiveData<LoginResult> liveData, Context context, MutableLiveData<List<CameraInfo>> liveDataCamera) {
         Call<User> call = mApiInterface.login(new User(username, password));
         call.enqueue(new Callback<User>() {
@@ -154,7 +187,7 @@ public class Repository {
                         Log.d(AppConstants.TAG, "The user is" + response.body().getLoggedIn());
                         liveData.setValue(new LoginResult(user));
                         setLoggedInUser(user, context);
-                       // getCameras(liveDataCamera,context);
+                        getCameras(liveDataCamera,context,null);
                     }
                     else
                         liveData.setValue(new LoginResult(R.string.login_failed));
@@ -170,7 +203,7 @@ public class Repository {
                 Log.d(AppConstants.TAG, "Failure" + t.getLocalizedMessage());
             }
         });
-    }
+    }*/
 
     public void getCameraGroups(MutableLiveData<List<Group>> liveData, Context mContext) {
         Call<List<Group>> call = mApiInterface.getGroups(getHeaderToken(mContext));
@@ -193,8 +226,7 @@ public class Repository {
             }
             @Override
             public void onFailure(@NonNull Call<List<Group>> call, @NonNull Throwable t) {
-                Log.d(AppConstants.TAG, "Camera fetch failed for cam" + t.getLocalizedMessage()+t.getCause());
-
+                Log.d(AppConstants.TAG, "Camera groups fetch failed" + t.getLocalizedMessage()+t.getCause());
                 liveData.postValue(null);
             }
         });
@@ -214,7 +246,6 @@ public class Repository {
                         liveData.postValue(null);
                 } else {
                     liveData.postValue(null);
-                    Log.d(AppConstants.TAG, "Camera fetch failed for cam" + response.message());
                 }
             }
             @Override
@@ -224,37 +255,7 @@ public class Repository {
             }
         });
     }
-    public void validate(
-                      MutableLiveData<LoginResult> liveData, Context context) {
-        Call<User> call = mApiInterface.validate(SharedPrefUtils.getToken(context));
-        call.enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(@NonNull Call<User> call,
-                                   @NonNull Response<User> response) {
-                if (response.isSuccessful()) {
-                    Log.d(AppConstants.TAG,"The user is"+response.body().getLoggedIn());
-                    if(response.body().getLoggedIn()){
-                    String cookie = response.headers().get("Set-Cookie");
-                    Log.d(AppConstants.TAG,"The cookie is"+cookie);
-                    User user = response.body();
-                    user.setToken(cookie);
-                    liveData.setValue(new LoginResult(user));
-                    setLoggedInUser(user, context);}
-                    else
-                        liveData.setValue(new LoginResult(R.string.login_failed));
-                } else {
-                    liveData.setValue(new LoginResult(R.string.link_expired));
-                     Log.d(AppConstants.TAG,"Fail"+response.message()+response.code());
-                }
-            }
 
-            @Override
-            public void onFailure(@NonNull Call<User> call, @NonNull Throwable t) {
-                liveData.setValue(new LoginResult(R.string.login_unable));
-                Log.d(AppConstants.TAG, "Failure" + t.getLocalizedMessage());
-            }
-        });
-    }
     public void refreshMonitor(UUID id,Context mContext){
         Call<String> call= mApiInterface.refreshMonitor(getHeaderToken(mContext),id);
         call.enqueue(new Callback<String>() {
@@ -262,13 +263,11 @@ public class Repository {
             public void onResponse(@NonNull Call<String> call,
                                    @NonNull Response<String> response) {
                 if (response.isSuccessful()) {
-
                 } else {
                 }
             }
             @Override
             public void onFailure(@NonNull Call<String> call, @NonNull Throwable t) {
-
                 Log.d(AppConstants.TAG, "Refresh Failure" + t.getLocalizedMessage());
             }
         });

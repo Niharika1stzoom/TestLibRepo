@@ -3,6 +3,7 @@ package com.firstzoom.bluevision.ui.monitor;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.hardware.Camera;
@@ -28,9 +29,11 @@ import com.firstzoom.bluevision.MainActivity;
 import com.firstzoom.bluevision.R;
 import com.firstzoom.bluevision.databinding.FragmentMonitorsBinding;
 import com.firstzoom.bluevision.model.CameraInfo;
+import com.firstzoom.bluevision.model.User;
 import com.firstzoom.bluevision.util.AppConstants;
 import com.firstzoom.bluevision.util.AppUtil;
 import com.firstzoom.bluevision.util.SharedPrefUtils;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +54,7 @@ public class MonitorsFragment extends Fragment {
         setHasOptionsMenu(true);
 
         if (SharedPrefUtils.getUser(getActivity().getApplicationContext()) == null ) {
-            NavHostFragment.findNavController(getParentFragment()).popBackStack();
-            NavHostFragment.findNavController(getParentFragment()).navigate(R.id.loginFragment);
+           goToLogin();
             return null;
         }
         mViewModel=new ViewModelProvider(getActivity()).get(MonitorsViewModel.class);
@@ -64,7 +66,15 @@ public class MonitorsFragment extends Fragment {
         if(mViewModel.getList().getValue()==null) {
             mViewModel.getMonitors();
         }
+
+        //Log.d(AppConstants.TAG,"Details"+SharedPrefUtils.getUrl(getContext().getApplicationContext()) +SharedPrefUtils.getUsername(getContext().getApplicationContext()) +SharedPrefUtils.getUser(getContext().getApplicationContext()));
+
         return root;
+    }
+
+    private void goToLogin() {
+        NavHostFragment.findNavController(getParentFragment()).popBackStack();
+        NavHostFragment.findNavController(getParentFragment()).navigate(R.id.loginFragment);
     }
 
     @Override
@@ -74,6 +84,19 @@ public class MonitorsFragment extends Fragment {
     }
 
     private void getList() {
+        mViewModel.getLoginResult().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String s) {
+                if(s!=null && TextUtils.equals(s,AppConstants.LOGOUT))
+                {
+                    mViewModel.setLoginResult(null);
+                    AppUtil.showSnackbar2(getView(),((AppCompatActivity) getActivity()).findViewById(R.id.nav_view),
+                            "Your session has expired.Please login again");
+                    mViewModel.logout();
+                    goToLogin();
+                }
+            }
+        });
         mViewModel.getList()
                 .observe(getViewLifecycleOwner(), list -> {
                     hideLoader();

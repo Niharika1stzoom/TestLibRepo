@@ -39,7 +39,6 @@ public class ApiModule {
     @Provides
     public Retrofit getRetroInstance(@ApplicationContext Context context) {
         String baseURL= getBaseUrl(context);
-        Log.d(AppConstants.TAG,"Got base url"+baseURL);
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(120, TimeUnit.SECONDS)
                 .writeTimeout(120, TimeUnit.SECONDS)
@@ -61,6 +60,7 @@ public class ApiModule {
     Repository provideRepository(ApiInterface apiInterface) {
         return new Repository(apiInterface);
     }
+
     public static Retrofit getInstance(String baseURL) {
         final OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(120, TimeUnit.SECONDS)

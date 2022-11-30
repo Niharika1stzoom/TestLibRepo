@@ -89,8 +89,8 @@ public class LoginFragment extends Fragment {
                             deepLink = pendingDynamicLinkData.getLink();
                             try {
                                 String token = deepLink.getQueryParameter(KEY_TOKEN);
-                                Log.d(AppConstants.TAG,"Got token from link "+token);
-                                Log.d(AppConstants.TAG,"Got url from link"+deepLink.getAuthority());
+                               // Log.d(AppConstants.TAG,"Got token from link "+token);
+                                //Log.d(AppConstants.TAG,"Got url from link"+deepLink.getAuthority());
                                 if (deepLink.getBooleanQueryParameter(
                                         KEY_TOKEN, false)) {
                                     token = deepLink.getQueryParameter(KEY_TOKEN);
@@ -156,13 +156,16 @@ public class LoginFragment extends Fragment {
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
         onNewIntent();
        // if(SharedPrefUtils.getToken(getContext().getApplicationContext())!=null && !TextUtils.isEmpty(SharedPrefUtils.getToken(getContext().getApplicationContext())))
-        //    loginViewModel.validate();
-        Log.d(AppConstants.TAG,"Token is"+SharedPrefUtils.getToken(getContext().getApplicationContext()));
+        //    loginViewModel.validate()
         final EditText usernameEditText = binding.username;
         final EditText passwordEditText = binding.password;
         final EditText urlEditText = binding.url;
         final Button loginButton = binding.login;
         final ProgressBar loadingProgressBar = binding.loading;
+        if(SharedPrefUtils.getUrl(getContext().getApplicationContext())!=null)
+            urlEditText.setText(SharedPrefUtils.getUrl(getContext().getApplicationContext()));
+        if(SharedPrefUtils.getUsername(getContext().getApplicationContext())!=null)
+            usernameEditText.setText(SharedPrefUtils.getUsername(getContext().getApplicationContext()));
         binding.loginQR.setOnClickListener(view1 -> showQRLoginDetail());
         loginViewModel.getLoginFormState().observe(getViewLifecycleOwner(),
                 new Observer<LoginFormState>() {
@@ -273,7 +276,7 @@ public class LoginFragment extends Fragment {
         binding.appLogoCenter.setVisibility(View.GONE);
     }
     private void showQRLoginDetail(){
-        String msg="\t1. On a web browser and \n" +
+        String msg="\t1. Open a web browser and \n" +
                 "\t    go to your BlueVision web app\n" +
                 "\t2. Login entering credentials\n" +
                 "\t3. Go to the Subscription tab and \n" +

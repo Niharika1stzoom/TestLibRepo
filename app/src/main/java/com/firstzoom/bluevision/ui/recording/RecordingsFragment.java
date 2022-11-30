@@ -88,8 +88,7 @@ public class RecordingsFragment extends Fragment {
                     } else {
                         hideEmptyView();
                         mAdapter.setList(recordingInfo.getRecordings());
-                        mViewModel.getDurationVideo().observe(getViewLifecycleOwner(),duration->
-                                Log.d(AppConstants.TAG,"Duration is"+duration));
+                       // mViewModel.getDurationVideo().observe(getViewLifecycleOwner(),duration-> Log.d(AppConstants.TAG,"Duration is"+duration));
                         mViewModel.getDuration();
 
                     }

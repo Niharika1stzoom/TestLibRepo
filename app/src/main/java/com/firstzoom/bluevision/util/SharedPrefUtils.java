@@ -39,7 +39,17 @@ public class SharedPrefUtils {
     public synchronized static String getUrl(Context context) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String token=prefs.getString(AppConstants.KEY_BASE_URL,"");
-
+        return token;
+    }
+    public synchronized static void saveUsername(Context context,String url) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(AppConstants.USERNAME,url);
+        editor.apply();
+    }
+    public synchronized static String getUsername(Context context) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String token=prefs.getString(AppConstants.USERNAME,"");
         return token;
     }
 
@@ -48,7 +58,6 @@ public class SharedPrefUtils {
        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
        SharedPreferences.Editor editor = prefs.edit();
        editor.remove(AppConstants.KEY_BASE_URL);
-       editor.clear();
        editor.apply();
     }
     public synchronized static void saveToken(Context context,String url) {
@@ -68,7 +77,6 @@ public class SharedPrefUtils {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = prefs.edit();
         editor.remove(AppConstants.KEY_TOKEN);
-        editor.clear();
         editor.apply();
     }
 }

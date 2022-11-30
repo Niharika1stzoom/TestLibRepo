@@ -16,6 +16,8 @@ public class AppConstants {
     public static final String KEY_CAMERA_GROUP = "camera_group";
     public static final String KEY_URL = "url";
     public static final String KEY_TOKEN ="token" ;
+    public static final String LOGOUT ="logout" ;
+    public static final String USERNAME = "username";
 }
 
 

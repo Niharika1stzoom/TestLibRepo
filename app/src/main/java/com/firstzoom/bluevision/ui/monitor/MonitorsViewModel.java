@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.firstzoom.bluevision.model.CameraInfo;
 import com.firstzoom.bluevision.repository.Repository;
+import com.firstzoom.bluevision.util.SharedPrefUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,15 +25,23 @@ public class MonitorsViewModel extends AndroidViewModel {
     Repository repository;
     Context mContext;
     MutableLiveData<List<CameraInfo>> mCameraList=new MutableLiveData<>();
+    MutableLiveData<String> mLoginResult=new MutableLiveData<>();
     @Inject
     public MonitorsViewModel(Application application) {
         super(application);
         mContext=application.getApplicationContext();
     }
 
+    public MutableLiveData<String> getLoginResult() {
+        return mLoginResult;
+    }
+
+    public void setLoginResult(String result) {
+        mLoginResult.setValue(result);
+    }
 
     public void getMonitors() {
-        repository.getCameras(mCameraList,mContext);
+        repository.getCameras(mCameraList,mContext,mLoginResult);
     }
     public LiveData<List<CameraInfo>> getList() {
         return mCameraList;
@@ -49,5 +58,11 @@ public class MonitorsViewModel extends AndroidViewModel {
 
     public void refreshCamera(CameraInfo info) {
         repository.refreshMonitor(info.getId(),mContext);
+    }
+
+    public void logout() {
+        SharedPrefUtils.delUser(mContext);
+        SharedPrefUtils.delToken(mContext);
+       // SharedPrefUtils.delUrl(mContext);
     }
 }

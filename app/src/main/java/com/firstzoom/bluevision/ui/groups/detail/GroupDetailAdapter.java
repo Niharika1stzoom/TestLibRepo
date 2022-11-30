@@ -3,6 +3,7 @@ package com.firstzoom.bluevision.ui.groups.detail;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -33,7 +34,6 @@ public class GroupDetailAdapter extends RecyclerView.Adapter<GroupDetailAdapter.
 
     public GroupDetailAdapter(Context context) {
         mContext = context;
-
     }
 
     @NonNull
@@ -91,7 +91,8 @@ public class GroupDetailAdapter extends RecyclerView.Adapter<GroupDetailAdapter.
             if (item != null && item.getDescription() != null) {
                 mBinding.itemDescription.setText(item.getDescription());
             }
-            setVideoUrl(mBinding.thumbnail, BlueVisionUtil.getFeedUrl(item, mContext));
+           setVideoUrl(mBinding.thumbnail, BlueVisionUtil.getFeedUrl(item, mContext));
+
         }
 
         @Override
@@ -136,13 +137,13 @@ public class GroupDetailAdapter extends RecyclerView.Adapter<GroupDetailAdapter.
             // Build a HttpDataSource.Factory with cross-protocol redirects enabled.
             ExoPlayer player = BlueVisionUtil.getExoPlayer(mContext);
             String filePath = url;
-            //ExoPlayer player = new ExoPlayer.Builder(mContext).build();
             playerView.setPlayer(player);
             Uri uri = Uri.parse(filePath);
             MediaItem mediaItem = MediaItem.fromUri(uri);
             player.setMediaItem(mediaItem);
-            player.prepare();
-            //player.play();
+           // player.prepare();
+           // player.play();
+
         }
 
     }

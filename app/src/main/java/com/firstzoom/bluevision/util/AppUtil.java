@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.model.GlideUrl;
+import com.bumptech.glide.load.model.LazyHeaders;
 import com.firstzoom.bluevision.R;
 import com.firstzoom.bluevision.model.CameraInfo;
 import com.firstzoom.bluevision.model.Group;
@@ -50,19 +52,23 @@ public class AppUtil {
     }
 
     public static void setImage(Context context, String url, ImageView imageView) {
-       if(url!=null)
-        Glide.with(context)
-                .load(url)
-                .placeholder(R.drawable.image_placeholder)
-                .centerCrop()
-                .into(imageView);
+
+       if(url!=null && !TextUtils.isEmpty(url)) {
+           GlideUrl glideUrl = new GlideUrl(url, new LazyHeaders.Builder()
+                   .addHeader("Cookie", SharedPrefUtils.getUser(context).getToken())
+                   .build());
+           Glide.with(context)
+                   .load(glideUrl)
+                   .placeholder(R.drawable.image_placeholder)
+                   .centerCrop()
+                   .into(imageView);
+       }
        else
            Glide.with(context)
                    .load("")
                    .placeholder(R.drawable.image_placeholder)
                    .centerCrop()
                    .into(imageView);
-
     }
 
 
@@ -139,6 +145,5 @@ public class AppUtil {
         return new Date();
         // return cal.getTime();
     }
-
 }
 

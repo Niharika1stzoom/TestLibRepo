@@ -52,14 +52,14 @@ public class LoginViewModel extends AndroidViewModel {
     public void login(String username, String password, String url) {
         if(url!=null)
         SharedPrefUtils.saveUrl(mContext,url);
-        Log.d(AppConstants.TAG,"Retrofit url is"+SharedPrefUtils.getUrl(mContext));
+        Log.d(AppConstants.TAG,"Before calling Retrofit url is"+SharedPrefUtils.getUrl(mContext));
         new Repository(ApiModule.getRestApiInterface(ApiModule.getInstance(SharedPrefUtils.getUrl(mContext)))).login(username, password,loginResult,mContext);
         //repository.login(username, password,loginResult,mContext);
     }
     public void validate(String url) {
-        Log.d(AppConstants.TAG,"Retrofit url through link is"+SharedPrefUtils.getUrl(mContext));
+        Log.d(AppConstants.TAG,"Before calling Retrofit url through link is"+SharedPrefUtils.getUrl(mContext));
         new Repository(ApiModule.getRestApiInterface(
-                ApiModule.getInstance(url))).validate(loginResult,mContext);
+                ApiModule.getInstance(SharedPrefUtils.getUrl(mContext)))).validate(loginResult,mContext);
 
     }
 

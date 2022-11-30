@@ -45,7 +45,7 @@ public class SettingsFragment extends Fragment {
                 {
                     SharedPrefUtils.delUser(getContext().getApplicationContext());
                     SharedPrefUtils.delToken(getContext().getApplicationContext());
-                    SharedPrefUtils.delUrl(getContext().getApplicationContext());
+                    //SharedPrefUtils.delUrl(getContext().getApplicationContext());
                     navigate();
                 });
         setDetails();
