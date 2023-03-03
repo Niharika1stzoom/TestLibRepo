@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/surfaceBlack"
+    tools:context=".ui.login.LoginFragment">
+
+    <ImageView
+        android:id="@+id/appLogo"
+        android:layout_width="160dp"
+        android:layout_height="108dp"
+        android:text="@string/app_name"
+        android:layout_marginTop="100dp"
+        android:layout_marginHorizontal="@dimen/margin"
+        android:layout_marginBottom="@dimen/margin"
+        android:src="@drawable/logo"
+        android:textSize="@dimen/font_xxxlarge"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+    <ImageView
+        android:id="@+id/appLogoCenter"
+        android:layout_width="160dp"
+        android:layout_height="108dp"
+        android:text="@string/app_name"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/margin_xlarge"
+        android:layout_marginHorizontal="@dimen/margin"
+        android:layout_marginBottom="@dimen/margin"
+        android:src="@drawable/logo"
+        android:textSize="@dimen/font_xxxlarge"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/font_medium_large"
+        android:layout_marginTop="@dimen/margin_xlarge"
+        app:layout_constraintTop_toBottomOf="@id/appLogo"
+        android:fontFamily="sans-serif-condensed"
+        android:textColor="@color/primaryTextColor"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="@string/app_name"
+
+        />
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.AppTheme.TextInputLayout"
+        android:id="@+id/urlLabel"
+        android:layout_marginHorizontal="@dimen/margin_xlarge"
+        android:layout_marginVertical="@dimen/margin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/prompt_url"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/url"
+            android:textSize="@dimen/font_small"
+            android:textColor="@color/primaryTextColor"
+            android:textColorHint="@color/primaryTextColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textUri"
+            android:selectAllOnFocus="true"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.AppTheme.TextInputLayout"
+        android:id="@+id/nameLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_xlarge"
+        android:layout_marginVertical="@dimen/margin"
+        android:hint="@string/prompt_email"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/urlLabel">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/username"
+            android:textSize="@dimen/font_small"
+            android:textColor="@color/primaryTextColor"
+            android:textColorHint="@color/primaryTextColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress"
+            android:selectAllOnFocus="true"
+
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.AppTheme.TextInputLayout"
+        android:id="@+id/passwordLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/margin_xlarge"
+        android:layout_marginVertical="@dimen/margin"
+        android:hint="@string/prompt_password"
+        app:endIconMode="password_toggle"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nameLabel">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/password"
+            android:textSize="@dimen/font_small"
+            android:textColor="@color/primaryTextColor"
+            android:textColorHint="@color/primaryTextColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeActionLabel="@string/action_sign_in_short"
+            android:imeOptions="actionDone"
+            android:inputType="textPassword"
+            android:selectAllOnFocus="true"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/login"
+        style="@style/Widget.AppTheme.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginTop="@dimen/margin"
+        android:text="@string/action_sign_in_short"
+        android:enabled="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/passwordLabel"
+        app:layout_constraintVertical_bias="0.2" />
+
+    <Button
+        android:id="@+id/loginQR"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginTop="@dimen/margin"
+        android:text="Sign in using QR Code ?"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login" />
+
+    <ProgressBar
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/login"
+        app:layout_constraintEnd_toEndOf="@+id/passwordLabel"
+        app:layout_constraintStart_toStartOf="@+id/passwordLabel"
+        app:layout_constraintTop_toBottomOf="@id/passwordLabel"
+        app:layout_constraintVertical_bias="0.4" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/loginGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="nameLabel,passwordLabel,urlLabel,login,appLogo,title,loginQR" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

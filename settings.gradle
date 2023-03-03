@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "BlueVision"
-include ':app'
+include ':bluevisionlib'
